@@ -168,7 +168,7 @@ with st.expander("✨ Get a Personalized Prompt"):
         if api_key:
             try:
                 genai.configure(api_key=api_key)
-                model = genai.GenerativeModel('gemini-1.5-flash')
+                model = genai.GenerativeModel('gemini-2.5-flash')
                 with st.spinner("Generating your personalized prompt..."):
                     response = model.generate_content(f"Generate a creative prompt about: {topic}")
                     st.write(response.text)
@@ -176,6 +176,27 @@ with st.expander("✨ Get a Personalized Prompt"):
                 st.error(f"An error occurred: {e}")
         else:
             st.error("API key is required for this feature.")
+
+with st.expander("Collapsible Bar 1"):
+    st.write("This is a placeholder for more features.")
+with st.expander("Collapsible Bar 2"):
+    st.write("This is a placeholder for more features.")
+with st.expander("Collapsible Bar 3"):
+    st.write("This is a placeholder for more features.")
+with st.expander("Collapsible Bar 4"):
+    st.write("This is a placeholder for more features.")
+with st.expander("Collapsible Bar 5"):
+    st.write("This is a placeholder for more features.")
+with st.expander("Collapsible Bar 6"):
+    st.write("This is a placeholder for more features.")
+with st.expander("Collapsible Bar 7"):
+    st.write("This is a placeholder for more features.")
+with st.expander("Collapsible Bar 8"):
+    st.write("This is a placeholder for more features.")
+with st.expander("Collapsible Bar 9"):
+    st.write("This is a placeholder for more features.")
+with st.expander("Collapsible Bar 10"):
+    st.write("This is a placeholder for more features.")
 
 # --- Prompt History ---
 with st.expander("📜 Prompt History"):
