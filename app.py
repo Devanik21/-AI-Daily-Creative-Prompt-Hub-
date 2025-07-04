@@ -2,57 +2,99 @@ import streamlit as st
 import datetime
 import random
 import google.generativeai as genai
+import pyperclip
 
-st.title("Daily Creative Prompt Hub")
+# --- Page Configuration ---
+st.set_page_config(
+    page_title="Daily Creative Prompt Hub",
+    page_icon="🎨",
+    layout="wide",
+)
 
-# Get the current date
+# --- CSS Styling ---
+st.markdown("""
+<style>
+    .main {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    }
+    .stApp {
+        background-color: transparent;
+    }
+    .stHeader {
+        color: #333;
+    }
+    .stSubheader {
+        color: #555;
+    }
+    .prompt-container {
+        background-color: #ffffff;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# --- Title and Header ---
+st.title("🎨 Daily Creative Prompt Hub")
+st.header(f"📅 Prompt for {datetime.date.today().strftime('%B %d, %Y')}")
+
+# --- Streak Counter ---
+if 'streak' not in st.session_state:
+    st.session_state.streak = 0
+if 'last_prompt_date' not in st.session_state:
+    st.session_state.last_prompt_date = None
+
 today = datetime.date.today()
+if st.session_state.last_prompt_date:
+    if (today - st.session_state.last_prompt_date).days == 1:
+        st.session_state.streak += 1
+    elif (today - st.session_state.last_prompt_date).days > 1:
+        st.session_state.streak = 1
+else:
+    st.session_state.streak = 1
+st.session_state.last_prompt_date = today
 
-# Set the random seed based on the current date
-random.seed(today.toordinal())
+st.sidebar.metric("🔥 Streak", f"{st.session_state.streak} days")
 
-# Prompts
-writing_prompts = [
-    "Write a story about a character who wakes up with a new superpower.",
-    "Describe a world where gravity works differently.",
-    "Write a dialogue between two characters who have a secret.",
-]
+# --- Prompts ---
+prompts = {
+    "✍️ Writing": [
+        {"prompt": "Write a story about a character who wakes up with a new superpower.", "level": "Easy"},
+        {"prompt": "Describe a world where gravity works differently.", "level": "Medium"},
+        {"prompt": "Write a dialogue between two characters who have a secret.", "level": "Hard"},
+    ],
+    "🎨 Drawing": [
+        {"prompt": "Draw a creature from your imagination.", "level": "Easy"},
+        {"prompt": "Sketch a landscape from a dream.", "level": "Medium"},
+        {"prompt": "Illustrate a scene from your favorite book.", "level": "Hard"},
+    ],
+    "💻 Coding": [
+        {"prompt": "Code a simple game of tic-tac-toe.", "level": "Easy"},
+        {"prompt": "Write a program that generates a random password.", "level": "Medium"},
+        {"prompt": "Build a web scraper that extracts data from a website.", "level": "Hard"},
+    ],
+}
 
-drawing_prompts = [
-    "Draw a creature from your imagination.",
-    "Sketch a landscape from a dream.",
-    "Illustrate a scene from your favorite book.",
-]
+# --- Display Prompts ---
+for category, prompt_list in prompts.items():
+    with st.container():
+        st.subheader(category)
+        prompt = random.choice(prompt_list)
+        st.markdown(f"""
+        <div class="prompt-container">
+            <p><strong>{prompt['prompt']}</strong></p>
+            <p><em>Challenge Level: {prompt['level']}</em></p>
+        </div>
+        """, unsafe_allow_html=True)
 
-coding_prompts = [
-    "Code a simple game of tic-tac-toe.",
-    "Write a program that generates a random password.",
-    "Build a web scraper that extracts data from a website.",
-]
-
-# Get a random prompt for each category
-writing_prompt = random.choice(writing_prompts)
-drawing_prompt = random.choice(drawing_prompts)
-coding_prompt = random.choice(coding_prompts)
-
-# Display the prompts
-st.header(f"Prompt for {today.strftime('%B %d, %Y')}")
-
-st.subheader("Writing Prompt")
-st.write(writing_prompt)
-
-st.subheader("Drawing Prompt")
-st.write(drawing_prompt)
-
-st.subheader("Coding Prompt")
-st.write(coding_prompt)
-
-# Gemini API Key
-st.sidebar.title("Gemini API")
+# --- Gemini API Key ---
+st.sidebar.title("🤖 Gemini API")
 api_key = st.sidebar.text_input("Enter your Gemini API key", type="password")
 
-# User input
-st.header("Share Your Creation")
+# --- User Input and Feedback ---
+st.header("🌟 Share Your Creation")
 user_input = st.text_area("Paste your writing, a description of your drawing, or your code here.")
 
 if st.button("Get Feedback"):
@@ -61,8 +103,15 @@ if st.button("Get Feedback"):
             genai.configure(api_key=api_key)
             model = genai.GenerativeModel('gemini-1.5-flash')
             response = model.generate_content(f"Provide feedback on this creative work: {user_input}")
-            st.subheader("Gemini's Feedback")
+            st.subheader("💡 Gemini's Feedback")
             st.write(response.text)
+
+            # --- Share Button ---
+            share_text = f"My Creative Work:\n\n{user_input}\n\nGemini's Feedback:\n\n{response.text}"
+            if st.button("Share to Clipboard"):
+                pyperclip.copy(share_text)
+                st.success("Copied to clipboard!")
+
         except Exception as e:
             st.error(f"An error occurred: {e}")
     else:
