@@ -244,14 +244,14 @@ with st.expander("🤝 Collaborative Storytelling"):
                     model = genai.GenerativeModel('gemini-2.5-flash')
                     response = model.generate_content(f"Continue this story: {' '.join(st.session_state.story)}")
                     st.session_state.story.append(response.text)
-                    st.experimental_rerun()
+                    st.rerun()
                 except Exception as e:
                     st.error(f"An error occurred: {e}")
         else: # User's turn
             user_addition = st.text_input("Your turn:", key="collab_user")
             if st.button("Add to Story") and user_addition:
                 st.session_state.story.append(user_addition)
-                st.experimental_rerun()
+                st.rerun()
 
 with st.expander("💻 Code Refactoring Suggestions"):
     code_input = st.text_area("Paste your code here for refactoring suggestions:")
@@ -344,6 +344,159 @@ with st.expander("🎨 Visual Palette Generator"):
                 st.error(f"An error occurred: {e}")
         else:
             st.error("API key and description are required.")
+
+with st.expander("🌍 World Anvil"):
+    world_input = st.text_area("Describe the basic concept of your world:")
+    if st.button("Build World"):
+        if api_key and world_input:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Building your world..."):
+                    response = model.generate_content(f"Expand this world concept with details on its history, cultures, and key locations: {world_input}")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key and concept are required.")
+
+with st.expander("👤 Character Backstory Generator"):
+    char_concept = st.text_input("Character concept (e.g., 'a rogue with a heart of gold')")
+    if st.button("Generate Backstory"):
+        if api_key and char_concept:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Writing backstory..."):
+                    response = model.generate_content(f"Write a detailed backstory for this character: {char_concept}")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key and concept are required.")
+
+with st.expander("📜 Poetry Assistant"):
+    poem_topic = st.text_input("Topic for your poem:")
+    poem_type = st.selectbox("Type of poem:", ["Haiku", "Sonnet", "Free Verse"])
+    if st.button("Write Poem"):
+        if api_key and poem_topic:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Writing your poem..."):
+                    response = model.generate_content(f"Write a {poem_type} about {poem_topic}")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key and topic are required.")
+
+with st.expander("🎬 Scriptwriting Assistant"):
+    script_scene = st.text_area("Describe the scene you want to write:")
+    if st.button("Write Scene"):
+        if api_key and script_scene:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Writing your scene..."):
+                    response = model.generate_content(f"Write a script scene based on this description: {script_scene}")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key and scene description are required.")
+
+with st.expander("📝 Blog Post Idea Generator"):
+    blog_topic = st.text_input("Your blog's topic:")
+    if st.button("Generate Ideas"):
+        if api_key and blog_topic:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Generating ideas..."):
+                    response = model.generate_content(f"Generate 5 blog post ideas for a blog about {blog_topic}")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key and topic are required.")
+
+with st.expander("🗣️ Speech Writer"):
+    speech_topic = st.text_input("Topic of your speech:")
+    speech_tone = st.selectbox("Tone:", ["Inspirational", "Informative", "Humorous"])
+    if st.button("Write Speech"):
+        if api_key and speech_topic:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Writing your speech..."):
+                    response = model.generate_content(f"Write a short, {speech_tone} speech about {speech_topic}")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key and topic are required.")
+
+with st.expander("❓ Interview Question Generator"):
+    job_role = st.text_input("Job role you're hiring for:")
+    if st.button("Generate Questions"):
+        if api_key and job_role:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Generating questions..."):
+                    response = model.generate_content(f"Generate 5 interview questions for a {job_role} position.")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key and job role are required.")
+
+with st.expander("📧 Email Responder"):
+    email_context = st.text_area("Paste the email you need to respond to:")
+    response_goal = st.text_input("What is the goal of your response?")
+    if st.button("Draft Response"):
+        if api_key and email_context and response_goal:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Drafting your email..."):
+                    response = model.generate_content(f"Draft an email response to the following email, with the goal of {response_goal}: {email_context}")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("All fields are required.")
+
+with st.expander("🤔 Analogy Generator"):
+    concept = st.text_input("Concept to explain:")
+    if st.button("Generate Analogy"):
+        if api_key and concept:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Generating an analogy..."):
+                    response = model.generate_content(f"Generate an analogy to explain this concept: {concept}")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key and concept are required.")
+
+with st.expander("💡 Brainstorming Partner"):
+    brainstorm_topic = st.text_input("What do you want to brainstorm about?")
+    if st.button("Start Brainstorming"):
+        if api_key and brainstorm_topic:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Brainstorming..."):
+                    response = model.generate_content(f"Let's brainstorm about {brainstorm_topic}. Here are some initial ideas:")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key and topic are required.")
 
 # --- Prompt History ---
 with st.expander("📜 Prompt History"):
