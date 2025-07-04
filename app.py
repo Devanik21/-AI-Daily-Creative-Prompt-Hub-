@@ -59,7 +59,7 @@ if st.button("Get Feedback"):
     if api_key:
         try:
             genai.configure(api_key=api_key)
-            model = genai.GenerativeModel('gemini-pro')
+            model = genai.GenerativeModel('gemini-1.5-flash')
             response = model.generate_content(f"Provide feedback on this creative work: {user_input}")
             st.subheader("Gemini's Feedback")
             st.write(response.text)
