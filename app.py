@@ -14,24 +14,36 @@ st.set_page_config(
 # --- CSS Styling ---
 st.markdown("""
 <style>
+    body {
+        color: #fff;
+    }
     .main {
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        background: linear-gradient(135deg, #232526 0%, #414345 100%);
     }
     .stApp {
         background-color: transparent;
     }
-    .stHeader {
-        color: #333;
+    h1, h2, h3, h4, h5, h6 {
+        color: #fff;
     }
-    .stSubheader {
-        color: #555;
+    .stHeader, .stSubheader {
+        color: #f0f0f0;
     }
     .prompt-container {
-        background-color: #ffffff;
+        background-color: #3a3a3a;
         border-radius: 10px;
         padding: 20px;
         margin-bottom: 20px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        color: #fff; /* Ensure text inside is white */
+    }
+    .prompt-container p em {
+        color: #cccccc;
+    }
+    /* Make streamlit widgets dark */
+    .stTextInput > div > div > input, .stTextArea > div > textarea {
+        background-color: #3a3a3a;
+        color: #fff;
     }
 </style>
 """, unsafe_allow_html=True)
