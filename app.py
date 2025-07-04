@@ -172,6 +172,12 @@ with st.expander("✨ Get a Personalized Prompt"):
                 with st.spinner("Generating your personalized prompt..."):
                     response = model.generate_content(f"Generate a creative prompt about: {topic}")
                     st.write(response.text)
+                    st.download_button(
+                        label="Export to TXT",
+                        data=response.text,
+                        file_name="personalized_prompt.txt",
+                        mime="text/plain"
+                    )
             except Exception as e:
                 st.error(f"An error occurred: {e}")
         else:
@@ -939,4 +945,3 @@ with st.expander("🖼️ Community Gallery"):
             st.image(item['image'])
         st.write(f"**Work:** {item['work']}")
         st.write(f"**Feedback:** {item['feedback']}")
-
