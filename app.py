@@ -498,6 +498,146 @@ with st.expander("💡 Brainstorming Partner"):
         else:
             st.error("API key and topic are required.")
 
+with st.expander("📚 Book Summary Generator"):
+    book_title = st.text_input("Enter the title of a book:")
+    if st.button("Summarize Book"):
+        if api_key and book_title:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Summarizing the book..."):
+                    response = model.generate_content(f"Provide a concise summary of the book: {book_title}")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key and book title are required.")
+
+with st.expander("🌐 Language Translator"):
+    text_to_translate = st.text_area("Enter text to translate:")
+    target_language = st.text_input("Enter the target language (e.g., 'French', 'Japanese'):")
+    if st.button("Translate"):
+        if api_key and text_to_translate and target_language:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Translating..."):
+                    response = model.generate_content(f"Translate the following text to {target_language}: {text_to_translate}")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("All fields are required.")
+
+with st.expander("📰 News Article Summarizer"):
+    article_url = st.text_input("Enter the URL of a news article:")
+    if st.button("Summarize Article"):
+        if api_key and article_url:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Summarizing the article..."):
+                    # Note: This requires the model to have web browsing capabilities.
+                    # For this example, we'll just pass the URL and assume the model can access it.
+                    response = model.generate_content(f"Summarize the news article at this URL: {article_url}")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key and article URL are required.")
+
+with st.expander("🍔 Recipe Generator"):
+    ingredients = st.text_input("List the ingredients you have:")
+    if st.button("Generate Recipe"):
+        if api_key and ingredients:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Creating a recipe..."):
+                    response = model.generate_content(f"Generate a recipe using these ingredients: {ingredients}")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key and ingredients are required.")
+
+with st.expander("🏋️ Workout Plan Generator"):
+    fitness_goal = st.text_input("What is your fitness goal (e.g., 'build muscle', 'lose weight')?")
+    days_per_week = st.slider("How many days per week can you work out?", 1, 7, 3)
+    if st.button("Generate Workout Plan"):
+        if api_key and fitness_goal:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Generating your workout plan..."):
+                    response = model.generate_content(f"Create a {days_per_week}-day workout plan for someone whose goal is to {fitness_goal}.")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key and fitness goal are required.")
+
+with st.expander("✈️ Travel Itinerary Planner"):
+    destination = st.text_input("Where do you want to go?")
+    duration = st.slider("How many days will your trip be?", 1, 14, 5)
+    if st.button("Plan Itinerary"):
+        if api_key and destination:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Planning your trip..."):
+                    response = model.generate_content(f"Create a {duration}-day travel itinerary for a trip to {destination}.")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key and destination are required.")
+
+with st.expander("💼 Business Name Generator"):
+    industry = st.text_input("What industry is your business in?")
+    if st.button("Generate Business Names"):
+        if api_key and industry:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Generating business names..."):
+                    response = model.generate_content(f"Generate 10 creative business names for a company in the {industry} industry.")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key and industry are required.")
+
+with st.expander(" slogan Generator"):
+    product = st.text_input("What is your product or brand?")
+    if st.button("Generate Slogans"):
+        if api_key and product:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Generating slogans..."):
+                    response = model.generate_content(f"Generate 5 catchy slogans for {product}.")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key and product/brand are required.")
+
+with st.expander("プレゼンテーション作成アシスタント (Presentation Assistant)"):
+    presentation_topic = st.text_input("プレゼンテーションのトピックは何ですか？ (What is the topic of your presentation?)")
+    if st.button("アウトラインを作成 (Create Outline)"):
+        if api_key and presentation_topic:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("アウトラインを作成中... (Creating outline...)"):
+                    response = model.generate_content(f"Create a presentation outline for the topic: {presentation_topic}")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("APIキーとトピックが必要です。 (API key and topic are required.)")
+
 # --- Prompt History ---
 with st.expander("📜 Prompt History"):
     for date_str, prompts_of_day in list(st.session_state.prompt_history.items())[-5:]:
