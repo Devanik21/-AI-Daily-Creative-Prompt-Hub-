@@ -608,7 +608,7 @@ with st.expander("💼 Business Name Generator"):
         else:
             st.error("API key and industry are required.")
 
-with st.expander(" slogan Generator"):
+with st.expander("📣 Slogan Generator"):
     product = st.text_input("What is your product or brand?")
     if st.button("Generate Slogans"):
         if api_key and product:
@@ -623,20 +623,20 @@ with st.expander(" slogan Generator"):
         else:
             st.error("API key and product/brand are required.")
 
-with st.expander("プレゼンテーション作成アシスタント (Presentation Assistant)"):
-    presentation_topic = st.text_input("プレゼンテーションのトピックは何ですか？ (What is the topic of your presentation?)")
-    if st.button("アウトラインを作成 (Create Outline)"):
-        if api_key and presentation_topic:
+with st.expander("🎓 Learning Path Generator"):
+    skill = st.text_input("What skill do you want to learn? (e.g., 'Python', 'Digital Marketing')")
+    if st.button("Generate Learning Path"):
+        if api_key and skill:
             try:
                 genai.configure(api_key=api_key)
                 model = genai.GenerativeModel('gemini-2.5-flash')
-                with st.spinner("アウトラインを作成中... (Creating outline...)"):
-                    response = model.generate_content(f"Create a presentation outline for the topic: {presentation_topic}")
+                with st.spinner("Generating your learning path..."):
+                    response = model.generate_content(f"Create a step-by-step learning path for someone who wants to learn {skill}.")
                     st.write(response.text)
             except Exception as e:
                 st.error(f"An error occurred: {e}")
         else:
-            st.error("APIキーとトピックが必要です。 (API key and topic are required.)")
+            st.error("API key and skill are required.")
 
 # --- Prompt History ---
 with st.expander("📜 Prompt History"):
