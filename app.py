@@ -138,7 +138,7 @@ if st.button("Get Feedback"):
     if api_key:
         try:
             genai.configure(api_key=api_key)
-            model = genai.GenerativeModel('gemini-2.5-flash')
+            model = genai.GenerativeModel('gemini-1.5-flash')
             if uploaded_file:
                 img = Image.open(uploaded_file)
                 response = model.generate_content([user_input, img])
@@ -163,12 +163,17 @@ if st.button("Get Feedback"):
 
 # --- Personalized Prompts ---
 with st.expander("✨ Get a Personalized Prompt"):
-    topic = st.text_input("Enter a topic (e.g., 'space opera', 'haunted house')")
-    if st.button("Generate"):
+    topic = st.text_input("Enter a topic (e.g., 'space opera', 'haunted house')", key="personalized_prompt_input")
+    if st.button("Generate Prompt"):
         if api_key:
-            model = genai.GenerativeModel('gemini-1.5-flash')
-            response = model.generate_content(f"Generate a creative prompt about: {topic}")
-            st.write(response.text)
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-1.5-flash')
+                with st.spinner("Generating your personalized prompt..."):
+                    response = model.generate_content(f"Generate a creative prompt about: {topic}")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
         else:
             st.error("API key is required for this feature.")
 
