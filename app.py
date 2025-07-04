@@ -178,6 +178,290 @@ with st.expander("✨ Get a Personalized Prompt"):
             st.error("API key is required for this feature.")
 
 # --- Advanced AI Tools ---
+with st.expander("🧠 Mind Map Generator"):
+    mind_map_topic = st.text_input("Enter a topic for your mind map:")
+    if st.button("Generate Mind Map"):
+        if api_key and mind_map_topic:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Generating mind map..."):
+                    response = model.generate_content(f"Generate a markdown-formatted mind map for the topic: {mind_map_topic}")
+                    st.markdown(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key and topic are required.")
+
+with st.expander("📊 SWOT Analysis Generator"):
+    swot_subject = st.text_input("Enter a business, product, or idea for SWOT analysis:")
+    if st.button("Generate SWOT Analysis"):
+        if api_key and swot_subject:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Generating SWOT analysis..."):
+                    response = model.generate_content(f"Generate a SWOT analysis (Strengths, Weaknesses, Opportunities, Threats) for: {swot_subject}")
+                    st.markdown(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key and subject are required.")
+
+with st.expander("📄 Code Documentation Writer"):
+    code_to_doc = st.text_area("Paste your code here to generate documentation:")
+    doc_lang = st.text_input("What programming language is this?", "python")
+    if st.button("Generate Documentation"):
+        if api_key and code_to_doc:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Generating documentation..."):
+                    response = model.generate_content(f"Generate documentation for the following {doc_lang} code: \n```\n{code_to_doc}\n```")
+                    st.markdown(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key and code are required.")
+
+with st.expander("🎤 Fictional Character Interviewer"):
+    interviewer_char = st.text_area("Describe the fictional character you want to interview:")
+    interviewer_question = st.text_input("What is your first question?")
+    if st.button("Start Interview"):
+        if api_key and interviewer_char and interviewer_question:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Character is thinking..."):
+                    response = model.generate_content(f"I am interviewing a fictional character. You are this character: '{interviewer_char}'. I will ask you questions. Respond as the character would. My first question is: {interviewer_question}")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key, character description, and a question are required.")
+
+with st.expander("🌙 Dream Interpreter"):
+    dream_desc = st.text_area("Describe your dream in as much detail as possible:")
+    if st.button("Interpret Dream"):
+        if api_key and dream_desc:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Interpreting your dream..."):
+                    response = model.generate_content(f"Provide a psychological and symbolic interpretation of the following dream: {dream_desc}")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key and dream description are required.")
+
+with st.expander("⚖️ Ethical Dilemma Solver"):
+    dilemma_desc = st.text_area("Describe an ethical dilemma:")
+    if st.button("Analyze Dilemma"):
+        if api_key and dilemma_desc:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Analyzing the dilemma from multiple perspectives..."):
+                    response = model.generate_content(f"Analyze the following ethical dilemma from utilitarian, deontological, and virtue ethics perspectives: {dilemma_desc}")
+                    st.markdown(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key and dilemma description are required.")
+
+with st.expander("🥗 Meal Plan Generator"):
+    meal_diet = st.text_input("Any dietary requirements or preferences (e.g., vegan, low-carb)?", "None")
+    meal_days = st.slider("Number of days for the meal plan:", 1, 14, 7)
+    if st.button("Generate Meal Plan"):
+        if api_key:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Generating your meal plan..."):
+                    response = model.generate_content(f"Create a {meal_days}-day meal plan (breakfast, lunch, dinner) with the following dietary needs: {meal_diet}. Include a grocery list.")
+                    st.markdown(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key is required.")
+
+with st.expander("💪 Personalized Fitness Challenge Creator"):
+    challenge_goal = st.text_input("What is your fitness goal for this challenge?", "Improve overall fitness")
+    challenge_duration = st.slider("Duration of the challenge (in days):", 7, 30, 30)
+    if st.button("Create Challenge"):
+        if api_key and challenge_goal:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Creating your fitness challenge..."):
+                    response = model.generate_content(f"Create a {challenge_duration}-day personalized fitness challenge for the goal: {challenge_goal}. The challenge should be progressive.")
+                    st.markdown(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key and a goal are required.")
+
+with st.expander("📱 Social Media Post Crafter"):
+    social_topic = st.text_input("Topic for your social media posts:")
+    social_platform = st.multiselect("Select platforms:", ["Twitter", "Facebook", "LinkedIn", "Instagram"])
+    if st.button("Craft Posts"):
+        if api_key and social_topic and social_platform:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Crafting your posts..."):
+                    response = model.generate_content(f"Craft social media posts about '{social_topic}' tailored for the following platforms: {', '.join(social_platform)}. Include relevant hashtags.")
+                    st.markdown(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key, topic, and at least one platform are required.")
+
+with st.expander("👨‍🏫 Lesson Plan Creator"):
+    lesson_subject = st.text_input("Subject:")
+    lesson_grade = st.text_input("Grade Level:")
+    lesson_topic = st.text_input("Topic:")
+    if st.button("Create Lesson Plan"):
+        if api_key and lesson_subject and lesson_grade and lesson_topic:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Creating your lesson plan..."):
+                    response = model.generate_content(f"Create a detailed lesson plan for a {lesson_grade} class on the topic of '{lesson_topic}' in the subject of {lesson_subject}. Include objectives, activities, and assessment methods.")
+                    st.markdown(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("All fields are required.")
+
+with st.expander("🎮 Gamer Tag Generator"):
+    gamer_theme = st.text_input("What theme for your gamer tag (e.g., 'cyberpunk', 'fantasy', 'space')?")
+    if st.button("Generate Gamer Tags"):
+        if api_key and gamer_theme:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Generating gamer tags..."):
+                    response = model.generate_content(f"Generate 10 unique and cool gamer tags with the theme: {gamer_theme}")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key and theme are required.")
+
+with st.expander("🗣️ Fictional Language Creator"):
+    lang_concept = st.text_area("Describe the concept of your fictional language (e.g., 'spoken by tree-people, sounds like rustling leaves').")
+    if st.button("Create Language Basics"):
+        if api_key and lang_concept:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Creating your language..."):
+                    response = model.generate_content(f"Based on the concept '{lang_concept}', create a basic vocabulary of 20 words and simple grammatical rules for a new fictional language.")
+                    st.markdown(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key and concept are required.")
+
+with st.expander("✉️ Cover Letter Writer"):
+    cover_job_desc = st.text_area("Paste the job description here:")
+    cover_user_info = st.text_area("Paste your resume or key skills and experiences here:")
+    if st.button("Write Cover Letter"):
+        if api_key and cover_job_desc and cover_user_info:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Writing your cover letter..."):
+                    response = model.generate_content(f"Write a professional cover letter based on this job description: '{cover_job_desc}' and this user's information: '{cover_user_info}'.")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key, job description, and user info are required.")
+
+with st.expander("📦 Product Description Generator"):
+    prod_name = st.text_input("Product Name:")
+    prod_features = st.text_area("List the product's key features:")
+    if st.button("Generate Description"):
+        if api_key and prod_name and prod_features:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Writing product description..."):
+                    response = model.generate_content(f"Write a compelling e-commerce product description for '{prod_name}' with the following features: {prod_features}.")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("All fields are required.")
+
+with st.expander("🧘 Meditation Script Writer"):
+    meditation_focus = st.text_input("What is the focus of the meditation (e.g., 'reducing anxiety', 'morning energy')?")
+    meditation_duration = st.slider("Approximate duration (in minutes):", 1, 20, 5)
+    if st.button("Write Meditation Script"):
+        if api_key and meditation_focus:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Writing your meditation script..."):
+                    response = model.generate_content(f"Write a guided meditation script for a {meditation_duration}-minute session focused on {meditation_focus}.")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key and focus are required.")
+
+with st.expander("🏛️ Historical Figure Dialogue"):
+    hist_fig1 = st.text_input("Historical Figure 1 (e.g., 'Albert Einstein')")
+    hist_fig2 = st.text_input("Historical Figure 2 (e.g., 'Isaac Newton')")
+    hist_topic = st.text_input("Topic of their conversation (e.g., 'the nature of gravity')")
+    if st.button("Generate Historical Dialogue"):
+        if api_key and hist_fig1 and hist_fig2 and hist_topic:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Writing historical dialogue..."):
+                    response = model.generate_content(f"Write a short, imagined dialogue between {hist_fig1} and {hist_fig2} about {hist_topic}. Capture their likely perspectives and personalities.")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("All fields are required.")
+
+with st.expander("👶 ELI5 (Explain Like I'm 5) Generator"):
+    eli5_topic = st.text_input("Enter a complex topic to explain simply:")
+    if st.button("Explain Like I'm 5"):
+        if api_key and eli5_topic:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Simplifying the topic..."):
+                    response = model.generate_content(f"Explain the following topic like I'm 5 years old: {eli5_topic}")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key and topic are required.")
+
+with st.expander("⚔️ Debate Topic Generator"):
+    debate_subject = st.text_input("Enter a subject for a debate (e.g., 'technology', 'education')")
+    if st.button("Generate Debate Topic"):
+        if api_key and debate_subject:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Generating a debate topic..."):
+                    response = model.generate_content(f"Generate a controversial debate topic related to {debate_subject}. Provide a brief for both the 'pro' and 'con' sides.")
+                    st.markdown(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key and subject are required.")
+
+# --- Prompt History ---
+
 with st.expander("🔬 Advanced AI Critiques"):
     critique_type = st.selectbox("Select Critique Type", ["Plot Hole Analysis", "Character Arc Review", "Code Efficiency Check"])
     critique_input = st.text_area("Paste your text or code for critique:")
