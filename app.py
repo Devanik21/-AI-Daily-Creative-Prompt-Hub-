@@ -177,26 +177,173 @@ with st.expander("✨ Get a Personalized Prompt"):
         else:
             st.error("API key is required for this feature.")
 
-with st.expander("Collapsible Bar 1"):
-    st.write("This is a placeholder for more features.")
-with st.expander("Collapsible Bar 2"):
-    st.write("This is a placeholder for more features.")
-with st.expander("Collapsible Bar 3"):
-    st.write("This is a placeholder for more features.")
-with st.expander("Collapsible Bar 4"):
-    st.write("This is a placeholder for more features.")
-with st.expander("Collapsible Bar 5"):
-    st.write("This is a placeholder for more features.")
-with st.expander("Collapsible Bar 6"):
-    st.write("This is a placeholder for more features.")
-with st.expander("Collapsible Bar 7"):
-    st.write("This is a placeholder for more features.")
-with st.expander("Collapsible Bar 8"):
-    st.write("This is a placeholder for more features.")
-with st.expander("Collapsible Bar 9"):
-    st.write("This is a placeholder for more features.")
-with st.expander("Collapsible Bar 10"):
-    st.write("This is a placeholder for more features.")
+# --- Advanced AI Tools ---
+with st.expander("🔬 Advanced AI Critiques"):
+    critique_type = st.selectbox("Select Critique Type", ["Plot Hole Analysis", "Character Arc Review", "Code Efficiency Check"])
+    critique_input = st.text_area("Paste your text or code for critique:")
+    if st.button("Get Critique"):
+        if api_key and critique_input:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Analyzing..."):
+                    response = model.generate_content(f"Provide a {critique_type} for the following: {critique_input}")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key and input are required.")
+
+with st.expander("💡 Idea Expander"):
+    idea_input = st.text_input("Enter a simple idea (e.g., 'a talking cat')")
+    if st.button("Expand Idea"):
+        if api_key and idea_input:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Expanding your idea..."):
+                    response = model.generate_content(f"Expand this idea into a detailed concept with world-building notes: {idea_input}")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key and input are required.")
+
+with st.expander("✍️ Style Transfer"):
+    style_input = st.text_area("Paste your text here:")
+    style_author = st.text_input("Enter an author's name (e.g., 'Ernest Hemingway')")
+    if st.button("Transfer Style"):
+        if api_key and style_input and style_author:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Transferring style..."):
+                    response = model.generate_content(f"Rewrite the following text in the style of {style_author}: {style_input}")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("All fields are required.")
+
+with st.expander("🤝 Collaborative Storytelling"):
+    if 'story' not in st.session_state:
+        st.session_state.story = []
+    
+    story_start = st.text_input("Start a story:", key="collab_start")
+    if st.button("Begin Story") and story_start:
+        st.session_state.story = [story_start]
+
+    if st.session_state.story:
+        for part in st.session_state.story:
+            st.write(part)
+        
+        if len(st.session_state.story) % 2 != 0: # AI's turn
+            with st.spinner("AI is thinking..."):
+                try:
+                    genai.configure(api_key=api_key)
+                    model = genai.GenerativeModel('gemini-2.5-flash')
+                    response = model.generate_content(f"Continue this story: {' '.join(st.session_state.story)}")
+                    st.session_state.story.append(response.text)
+                    st.experimental_rerun()
+                except Exception as e:
+                    st.error(f"An error occurred: {e}")
+        else: # User's turn
+            user_addition = st.text_input("Your turn:", key="collab_user")
+            if st.button("Add to Story") and user_addition:
+                st.session_state.story.append(user_addition)
+                st.experimental_rerun()
+
+with st.expander("💻 Code Refactoring Suggestions"):
+    code_input = st.text_area("Paste your code here for refactoring suggestions:")
+    if st.button("Get Suggestions"):
+        if api_key and code_input:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Generating suggestions..."):
+                    response = model.generate_content(f"Provide code refactoring suggestions for the following code: {code_input}")
+                    st.code(response.text, language='python')
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key and code are required.")
+
+with st.expander("🎵 Music/Ambiance Suggester"):
+    ambiance_input = st.text_area("Describe the scene or mood:")
+    if st.button("Get Ambiance"):
+        if api_key and ambiance_input:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Finding the perfect sound..."):
+                    response = model.generate_content(f"Suggest music or ambiance for the following scene: {ambiance_input}")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key and description are required.")
+
+with st.expander("🏷️ Title Generator"):
+    title_input = st.text_area("Paste the text of your work here:")
+    if st.button("Generate Titles"):
+        if api_key and title_input:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Generating titles..."):
+                    response = model.generate_content(f"Generate 5 catchy titles for the following work: {title_input}")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key and text are required.")
+
+with st.expander("💬 Character Dialogue Generator"):
+    char1 = st.text_input("Character 1 (e.g., 'a grumpy dwarf')")
+    char2 = st.text_input("Character 2 (e.g., 'an optimistic elf')")
+    situation = st.text_input("Situation (e.g., 'they are lost in a forest')")
+    if st.button("Generate Dialogue"):
+        if api_key and char1 and char2 and situation:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Writing dialogue..."):
+                    response = model.generate_content(f"Write a short dialogue between {char1} and {char2} in this situation: {situation}")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("All fields are required.")
+
+with st.expander("💥 Plot Twist Generator"):
+    plot_input = st.text_area("Summarize your plot so far:")
+    if st.button("Generate Twist"):
+        if api_key and plot_input:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Thinking of a twist..."):
+                    response = model.generate_content(f"Generate a surprising plot twist for this story: {plot_input}")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key and plot summary are required.")
+
+with st.expander("🎨 Visual Palette Generator"):
+    palette_input = st.text_area("Describe the mood or theme of your artwork:")
+    if st.button("Generate Palette"):
+        if api_key and palette_input:
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                with st.spinner("Generating a palette..."):
+                    response = model.generate_content(f"Generate a color palette (with hex codes) for this theme: {palette_input}")
+                    st.write(response.text)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.error("API key and description are required.")
 
 # --- Prompt History ---
 with st.expander("📜 Prompt History"):
